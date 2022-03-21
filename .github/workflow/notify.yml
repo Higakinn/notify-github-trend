@@ -1,0 +1,38 @@
+name: notify github trend
+
+on: #push
+  schedule:
+    - cron: '0 0 * * *' # 毎日8時間毎に定期実行(時間がutcなので注意)
+  
+
+env:
+  GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+  QIITA_API_TOKEN: ${{ secrets.QIITA_API_TOKEN }}
+  PROGRAM_LANGUAGES: ${{ secrets.PROGRAM_LANGUAGES }}
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Git checkout current branch #作業ブランチにchekout
+      uses: actions/checkout@v2 #サードパーティの公開アクションを利用
+      with:
+        ref: ${{ github.ref }}
+    - name: Git setting
+      run: |
+        # pullしておかないと Re-run all jobs 実行時はコケてしまうため
+        git pull
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+    - name: Commit and push
+      run: |
+        git commit --allow-empty -m "prevent automatic workflow stopping" -m "see: https://docs.github.com/en/actions/managing-workflow-runs/disabling-and-enabling-a-workflow"
+        git push
+    - name: notify github trend
+      run:  echo "notify github trend" &&
+            sed -e "s|__GH_ACCESS_TOKEN__|${GH_ACCESS_TOKEN}|g" 
+                -e "s|__QIITA_API_TOKEN__|${QIITA_API_TOKEN}|g" 
+                -e "s|__PROGRAM_LANGUAGES__|${PROGRAM_LANGUAGES}|g" .env.example > .env &&
+            docker-compose up -d &&
+            docker-compose exec -T poetry-demo poetry run python notify_ghtrend/main.py
