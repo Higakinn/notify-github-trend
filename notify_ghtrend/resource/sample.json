@@ -2,10 +2,10 @@
   "title": "",
   "body": "",
   "coediting": false,
-  "private": false,
+  "private": true,
   "tags": [
     {
-      "name": "Python",
+      "name": "",
       "versions": [
         "0.0.1"
       ]
@@ -23,5 +23,5 @@
       ]
     }
   ],
-  "tweet": true
+  "tweet": true 
 }

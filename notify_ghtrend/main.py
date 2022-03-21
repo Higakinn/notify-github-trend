@@ -20,7 +20,7 @@ def main():
 
       # NOTE: 外部サービスにpost
       title = f'{program_language} GitHubトレンドデイリーランキング!!【自動更新】'
-      Qiita().post(title, md_content)
+      Qiita().post(program_language, title,md_content)
 
 if __name__ == "__main__":
     main()
