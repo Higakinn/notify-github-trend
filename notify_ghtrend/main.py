@@ -8,7 +8,7 @@ from exactractor import github
 from poster.qiita import Qiita
 
 def main():
-  program_languages = os.getenv("PROG_LANGE").strip(",")
+  program_languages = os.getenv("PROGRAM_LANGUAGES").split(",")
   for program_language in program_languages:
       rs = github.get_trends(language=program_language)
 
