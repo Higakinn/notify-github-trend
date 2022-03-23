@@ -20,3 +20,19 @@ class Qiita(Base):
         result = requests.post(post_api_url, headers=headers, json=item_data)
 
         print(result.json())
+
+    def update(self, lang, title, md_file, article_id):
+        api_base_url = "https://qiita.com/"
+        post_api_url = f"{api_base_url}api/v2/items/{article_id}"
+        access_token = os.getenv("QIITA_API_TOKEN")
+        headers = {"Authorization": f"Bearer {access_token}"}
+        with open(f"{os.getcwd()}/notify_ghtrend/resource/sample.json") as f:
+            item_data = json.loads(f.read())
+
+        item_data["title"] = title
+        item_data["body"] = md_file
+        item_data["tags"][0]["name"] = lang
+
+        result = requests.patch(post_api_url, headers=headers, json=item_data)
+
+        print(result.json())
