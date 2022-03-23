@@ -16,7 +16,7 @@ def get_trends(language="python", since="daily"):
     results = []
     for repo in repo_list:
         r = repo.find(class_="h3 lh-condensed")
-        desc = repo.find("p", class_="cœol-9 color-fg-muted my-1 pr-4")
+        desc = repo.find("p", class_="col-9 color-fg-muted my-1 pr-4")
         star_child_tag = repo.find("svg", class_="octicon octicon-star")
         star = star_child_tag.parent.text.strip()
         trend_repo_a_tag = r.find("a")
