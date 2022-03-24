@@ -9,6 +9,7 @@ env:
   QIITA_API_TOKEN: ${{ secrets.QIITA_API_TOKEN }}
   PROGRAM_LANGUAGES: ${{ secrets.PROGRAM_LANGUAGES }}
   ARTICLE_IDS: ${{ secrets.ARTICLE_IDS }}
+  TRANSLATE_API_URL: ${{ secrets.TRANSLATE_API_URL }}
 
 jobs:
   build:
@@ -32,6 +33,7 @@ jobs:
         run: echo "notify github trend" &&
           sed -e "s|__GH_ACCESS_TOKEN__|${GH_ACCESS_TOKEN}|g"
           -e "s|__QIITA_API_TOKEN__|${QIITA_API_TOKEN}|g"
+          -e "s|__TRANSLATE_API_URL__|${TRANSLATE_API_URL}|g"
           -e "s|__PROGRAM_LANGUAGES__|${PROGRAM_LANGUAGES}|g"
           -e "s|__ARTICLE_IDS__|${ARTICLE_IDS}|g" .env.example > .env &&
           docker-compose up -d &&
