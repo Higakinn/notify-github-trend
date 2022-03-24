@@ -12,7 +12,6 @@ def main():
     article_ids = os.getenv("ARTICLE_IDS").split(",")
     for program_language, article_id in zip(program_languages, article_ids):
         rs = github.get_trends(language=program_language)
-
         # NOTE: markdown 組み立て
         fileSystemLoader = jinja2.FileSystemLoader(
             searchpath=f"{os.getcwd()}/notify_ghtrend/resource"
