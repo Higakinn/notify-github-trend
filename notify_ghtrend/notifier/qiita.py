@@ -5,12 +5,17 @@ from .base import Base
 
 
 class Qiita(Base):
+    def __init__(self) -> None:
+        self.api_base_url = "https://qiita.com/"
+        self.access_token = os.getenv("QIITA_API_TOKEN")
+
     def post(self, lang, title, md_file):
-        api_base_url = "https://qiita.com/"
-        post_api_url = f"{api_base_url}api/v2/items"
-        access_token = os.getenv("QIITA_API_TOKEN")
-        headers = {"Authorization": f"Bearer {access_token}"}
-        with open(f"{os.getcwd()}/notify_ghtrend/resource/sample.json") as f:
+        post_api_url = f"{self.api_base_url}api/v2/items"
+        headers = {"Authorization": f"Bearer {self.access_token}"}
+
+        with open(
+            f"{os.getcwd()}/notify_ghtrend/resource/qiita_request_body.json"
+        ) as f:
             item_data = json.loads(f.read())
 
         item_data["title"] = title
@@ -22,17 +27,18 @@ class Qiita(Base):
         print(result.json())
 
     def update(self, lang, title, md_file, article_id):
-        api_base_url = "https://qiita.com/"
-        post_api_url = f"{api_base_url}api/v2/items/{article_id}"
-        access_token = os.getenv("QIITA_API_TOKEN")
-        headers = {"Authorization": f"Bearer {access_token}"}
-        with open(f"{os.getcwd()}/notify_ghtrend/resource/sample.json") as f:
+        patch_api_url = f"{self.api_base_url}api/v2/items/{article_id}"
+        headers = {"Authorization": f"Bearer {self.access_token}"}
+
+        with open(
+            f"{os.getcwd()}/notify_ghtrend/resource/qiita_request_body.json"
+        ) as f:
             item_data = json.loads(f.read())
 
         item_data["title"] = title
         item_data["body"] = md_file
         item_data["tags"][0]["name"] = lang
 
-        result = requests.patch(post_api_url, headers=headers, json=item_data)
+        result = requests.patch(patch_api_url, headers=headers, json=item_data)
 
         print(result.json())
