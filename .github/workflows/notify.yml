@@ -31,6 +31,7 @@ jobs:
           git push
       - name: notify github trend
         run: echo "notify github trend" &&
+          cat notify_ghtrend/resource/sample_qiita_request_body.json | jq '.private|=false' > notify_ghtrend/resource/qiita_request_body.json &&
           sed -e "s|__GH_ACCESS_TOKEN__|${GH_ACCESS_TOKEN}|g"
           -e "s|__QIITA_API_TOKEN__|${QIITA_API_TOKEN}|g"
           -e "s|__TRANSLATE_API_URL__|${TRANSLATE_API_URL}|g"

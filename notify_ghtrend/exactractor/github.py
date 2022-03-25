@@ -26,7 +26,7 @@ def get_trends(language="python", since="daily"):
         title = trend_repo_a_tag.get("href")
         description = getattr(desc, "text", "").lstrip()
         translated_res = translate(description)
-        print(translated_res)
+
         if translated_res["code"] == 200:
             description += f"\n{translated_res['text']}"
         gh_trend_url = f"{gh_base_url}{title}"
