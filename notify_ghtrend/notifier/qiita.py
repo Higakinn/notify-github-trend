@@ -24,8 +24,6 @@ class Qiita(Base):
 
         result = requests.post(post_api_url, headers=headers, json=item_data)
 
-        print(result.json())
-
     def update(self, lang, title, md_file, article_id):
         patch_api_url = f"{self.api_base_url}api/v2/items/{article_id}"
         headers = {"Authorization": f"Bearer {self.access_token}"}
@@ -40,5 +38,3 @@ class Qiita(Base):
         item_data["tags"][0]["name"] = lang
 
         result = requests.patch(patch_api_url, headers=headers, json=item_data)
-
-        print(result.json())
