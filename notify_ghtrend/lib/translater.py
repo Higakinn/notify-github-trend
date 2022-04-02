@@ -2,7 +2,7 @@ import os
 import requests
 
 
-def translate(text: str, source: str = "en", target="ja"):
+def translate(text: str, source: str = "", target="ja"):
     url = os.getenv("TRANSLATE_API_URL")
     headers = {"content-type": "application/json"}
     item_data = {"text": text, "source": source, "target": target}
