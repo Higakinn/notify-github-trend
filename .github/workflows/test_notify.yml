@@ -6,6 +6,8 @@ env:
   PROGRAM_LANGUAGES: ${{ secrets.PROGRAM_LANGUAGES }}
   ARTICLE_IDS: ${{ secrets.ARTICLE_IDS_TEST }}
   TRANSLATE_API_URL: ${{ secrets.TRANSLATE_API_URL }}
+  NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN}}
+  NOTION_DATABAE_ID: ${{ secrets.NOTION_DATABAE_ID}}
 
 on:
   workflow_dispatch:
@@ -26,6 +28,8 @@ jobs:
           -e "s|__QIITA_API_TOKEN__|${QIITA_API_TOKEN}|g"
           -e "s|__TRANSLATE_API_URL__|${TRANSLATE_API_URL}|g"
           -e "s|__PROGRAM_LANGUAGES__|${PROGRAM_LANGUAGES}|g"
-          -e "s|__ARTICLE_IDS__|${ARTICLE_IDS}|g" .env.example > .env &&
+          -e "s|__ARTICLE_IDS__|${ARTICLE_IDS}|g"
+          -e "s|__NOTION_API_TOKEN__|${NOTION_API_TOKEN}|g"
+          -e "s|__NOTION_DATABAE_ID__|${NOTION_DATABAE_ID}|g" .env.example > .env &&
           docker-compose up -d &&
           docker-compose exec -T poetry-demo poetry run python notify_ghtrend/main.py
