@@ -14,6 +14,7 @@ def main():
     article_ids = os.getenv("ARTICLE_IDS").split(",")
     notion_client = Notion()
     all_languages_trends = github.fetch_trends()
+    # NOTE: notionへ投入
     for trend in all_languages_trends:
         print(trend)
         notion_properties = {
@@ -26,11 +27,15 @@ def main():
             },
             "star": {"rich_text": [{"text": {"content": trend["star"]}}]},
         }
+        if trend["twitter_url"] is not None:
+            notion_properties["twitter_url"] = {"url": trend["twitter_url"]}
+        print(notion_properties)
         notion_client.create_database(
             database_id=notion_database_id, notion_properties=notion_properties
         )
         time.sleep(0.5)
 
+    # NOTE: qiitaへ投入
     for program_language, article_id in zip(program_languages, article_ids):
         rs = github.get_trends(language=program_language)
         # NOTE: markdown 組み立て
