@@ -2,7 +2,7 @@ name: notify github trend
 
 on: #push
   schedule:
-    - cron: "0 0 * * *" # 毎日8時間毎に定期実行(時間がutcなので注意)
+    - cron: "0 22 * * *" # 毎日8時間毎に定期実行(時間がutcなので注意)
 
 env:
   GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
