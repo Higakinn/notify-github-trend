@@ -41,5 +41,5 @@ jobs:
           -e "s|__ARTICLE_IDS__|${ARTICLE_IDS}|g"
           -e "s|__NOTION_API_TOKEN__|${NOTION_API_TOKEN}|g"
           -e "s|__NOTION_DATABAE_ID__|${NOTION_DATABAE_ID}|g" .env.example > .env &&
-          docker-compose up -d &&
-          docker-compose exec -T poetry-demo poetry run python notify_ghtrend/main.py
+          docker compose up -d &&
+          docker compose exec -T poetry-demo poetry run python notify_ghtrend/main.py
